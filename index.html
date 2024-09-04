@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao BotMaster</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .header {
+            background-color: #2c2c2c;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .botmaster-button, .secondary-button {
+            background-color: #2980b9;
+            color: #ffffff;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin: 5px;
+        }
+        .secondary-button {
+            background-color: #007bff;
+        }
+        .container {
+            padding: 20px;
+        }
+        .cta-button {
+            background-color: #ff5500;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 15px 0;
+        }
+        .comments-section {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 5px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .comment {
+            background-color: #444444;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .comment-content {
+            color: #ffffff;
+        }
+        .comment-input {
+            display: flex;
+            margin-top: 20px;
+        }
+        .comment-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            background-color: #555555;
+            color: #ffffff;
+        }
+        .comment-input button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff5500;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .popup {
+            display: none;
+            text-align: center;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 5px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+        }
+        .popup h2 {
+            color: #ffcc00;
+        }
+        .popup p {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="#" class="botmaster-button" onclick="showVerificationPage()">BotMaster</a>
+        <a href="tel:861425028" class="botmaster-button">Linha de Cliente:</a>
+    </div>
+    <div class="container">
+        <h1>Seja Bem-vindo ao BotMaster</h1>
+        <p>Para acessar o Bot, registre-se na Placard e vincule seu número ao BotMaster.⚠️ É obrigatório criar uma conta</p>
+        <a href="https://media1.placard.co.mz/redirect.aspx?pid=6167&bid=1690" class="cta-button">Criar Conta Placard</a>
+        <button class="secondary-button" onclick="showLoginPage()">Já tenho uma conta na Placard</button>
+    </div>
+    <div class="comments-section">
+        <h2>Comentários Recentes</h2>
+        <div id="comments"></div>
+        <div class="comment-input">
+            <input type="text" id="commentText" placeholder="Digite seu comentário...">
+            <button onclick="postComment()">Enviar</button>
+        </div>
+    </div>
+    <div id="verification-page" class="popup">
+        <h2>Bem-vindo ao BotMaster!</h2>
+        <p>Para acessar o BotMaster, insira o código de 4 dígitos gerado após a criação da conta:</p>
+        <input type="text" id="verificationCode" placeholder="Código de 4 dígitos">
+        <button class="cta-button" onclick="verifyCode()">Confirmar Código</button>
+        <button class="cta-button" onclick="hideVerificationPage()">Fechar</button>
+    </div>
+    <div id="login-page" class="popup">
+        <h2>Já tem uma conta na Placard?</h2>
+        <p>Caso já tenhas uma conta na Placard, crie sua conta em uma das casas presentes abaixo:</p>
+        <a href="https://media.premierbetpartners.com/redirect.aspx?pid=112553&bid=5208" class="cta-button">Premier Bet</a>
+        <a href="https://record.elephantbet.com/_zHW607rR29IWqcfzuvZcQGNd7ZgqdRLk/1/" class="cta-button">Elefante Bet</a>
+        <button class="cta-button" onclick="hideLoginPage()">Fechar</button>
+    </div>
+    <script>
+        function showVerificationPage() {
+            document.getElementById('verification-page').style.display = 'block';
+        }
+        function hideVerificationPage() {
+            document.getElementById('verification-page').style.display = 'none';
+        }
+        function verifyCode() {
+            const code = document.getElementById('verificationCode').value.trim();
+            if (code.length === 4) {
+                alert('Código verificado com sucesso!');
+                hideVerificationPage();
+            } else {
+                alert('Por favor, insira um código de 4 dígitos.');
+            }
+        }
+        function showLoginPage() {
+            document.getElementById('login-page').style.display = 'block';
+        }
+        function hideLoginPage() {
+            document.getElementById('login-page').style.display = 'none';
+        }
+        function displayComment(name, message) {
+            const commentsContainer = document.getElementById('comments');
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment';
+            commentElement.innerHTML = `<div class="comment-content"><p><strong>${name}</strong>: ${message}</p></div>`;
+            commentsContainer.appendChild(commentElement);
+            commentsContainer.scrollTop = commentsContainer.scrollHeight; // Scroll para o fim
+        }
+        function startContinuousComments() {
+            const users = ["Pedro", "Maria", "João", "Ana", "Carlos", "Fernanda"];
+            const messages = [
+                "Acabei de ganhar MZN 150.000 usando o BotMaster!",
+                "O BotMaster é incrível, os lucros estão entrando!",
+                "Não consigo acreditar como é fácil usar o BotMaster.",
+                "Minha conta na Placard já está rendendo com o BotMaster.",
+                "Eu só tenho a agradecer pelo BotMaster, mudou minha vida!",
+                "Estou utilizando o BotMaster e já estou vendo resultados."
+            ];
+            setInterval(() => {
+                const randomUser = users[Math.floor(Math.random() * users.length)];
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                displayComment(randomUser, randomMessage);
+            }, 3000); // Adiciona um comentário a cada 3 segundos
+        }
+        function postComment() {
+            const commentText = document.getElementById('commentText').value.trim();
+            if (commentText !== '') {
+                displayComment("Você", commentText);
+                document.getElementById('commentText').value = ''; // Limpa o campo de texto
+            }
+        }
+        window.onload = function () {
+            startContinuousComments();
+        }
+    </script>
+</body>
+</html>
